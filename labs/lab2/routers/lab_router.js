@@ -20,7 +20,6 @@ router.get("/add/:x/:y", (req, res) => {
 //calculate
 router.get("/calculate/:x/:op/:y", (req, res) => {
     let result = 0
-    console.log(req.params.op);
     if (req.params.op === "+") {
         result = parseFloat(req.params.x)+parseFloat(req.params.y);
     } else if (req.params.op === "-") {
