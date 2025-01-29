@@ -27,7 +27,11 @@ router.get("/calculate/:x/:op/:y", (req, res) => {
     } else if (req.params.op === "*") {
         result = parseFloat(req.params.x)*parseFloat(req.params.y);
     } else if (decodeURI(req.params.op) === "/") {
-        result = parseFloat(req.params.x)/parseFloat(req.params.y);
+        if (parseFloat(req.params.y) != 0) {
+            result = parseFloat(req.params.x)/parseFloat(req.params.y);
+        } else {
+            result = "Cannot divide by 0.";
+        }
     } else if (req.params.op === "**") {
         result = parseFloat(req.params.x)**parseFloat(req.params.y);
     } else {let result = "Invalid operation."}
