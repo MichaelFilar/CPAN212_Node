@@ -4,6 +4,7 @@ const App = () => {
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [file, setFile] = useState(null);
 
   const fetchData = async() => {
     try {
@@ -31,6 +32,23 @@ console.log(err)
     } catch(err) {console.log(err)}
   }
 
+  const fileUpload = async(e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch(`http://localhost:8000/fileform`, {
+        method: "POST",
+        body: formData
+      })
+      const data = await response.json();
+      setMessage(JSON.stringify(data));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return(
   <div>
     {message}
@@ -52,6 +70,14 @@ console.log(err)
         required
       />
       <button type="submit">Login</button>
+    </form>
+    <form onSubmit={fileUpload}>
+      <input 
+      type="file"
+      multiple
+      onChange={(e) => {setFile(e.target.value)}}    
+      />
+      <button type="submit">Upload</button>
     </form>
   </div>
   )
