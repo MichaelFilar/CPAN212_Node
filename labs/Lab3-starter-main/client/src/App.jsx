@@ -58,8 +58,36 @@ const App = () => {
     }
   };
 
+
   // fetch functions -> save multiple [TODO]
+
+  const handleSubmitMultipleFiles = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    multipleFiles.forEach(
+      formData.append("files", file)
+    )
+    try {
+      const response = await fetch(`http://localhost:8000/save/multiple`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = response.json();
+      setMessage("Files uploaded");
+    } catch (error) {
+      console.log(error)
+  }
   // fetch functions -> fetch multiple [TODO]
+
+const fetchMultipleFiles = async (e) => {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
   // fetch functions -> fetch dog image [TODO]
   // fetch functions -> save dog image [TODO]
 

@@ -34,7 +34,13 @@ router.get("/file/:filename", (req, res) => {
 
 // TO DO, send array of filenames [TODO]
 router.get("/multiple", (req, res) => {
-  res.send("TODO");
+  let files_array = fs.readdirSync(upload_directory);
+
+  if (files_array.length == 0) {
+    return res.status(503).send({message: "No images"});
+  }
+  let filesnames = _.sampleSize(files_array, 3);
+  res.json(filesnames);
 });
 
 export default router;
