@@ -82,7 +82,9 @@ const App = () => {
 
 const fetchMultipleFiles = async (e) => {
   try {
-    
+    // fetch the /fetch/multiple
+    //run map on data
+    // ''another one'' to fetch the filename
   } catch (error) {
     
   }
