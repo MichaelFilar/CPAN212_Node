@@ -5,6 +5,8 @@ const App = () => {
   const [singleFile, setSingleFile] = useState(null);
   const [multipleFiles, setMultipleFiles] = useState([]);
   const [displayImage, setDisplayImage] = useState(null);
+  const [displayImages, setDisplayImages] = useState([]);
+  const [displayDogImage, setDisplayDogImage] = useState("");
   const [message, setMessage] = useState("");
 
   // Handlers
@@ -78,6 +80,7 @@ const App = () => {
     } catch (error) {
       console.log(error)
   }
+};
   // fetch functions -> fetch multiple [TODO]
 
 const fetchMultipleFiles = async (e) => {
@@ -85,13 +88,61 @@ const fetchMultipleFiles = async (e) => {
     // fetch the /fetch/multiple
     //run map on data
     // ''another one'' to fetch the filename
+    const response = await fetch(`http://localhost:8000/fetch/multiple`)
+    const data = await response.json();
+
+    console.log(data);
+
+    const filePromises = data.map(async(filename) => {
+      const fileResponse = await fetch(`http://localhost:8000/fetch/file/${filename}`);
+
+      const fileBlob = await fileResponse.blob();
+      const imageURL = URL.createObjectURL(fileBlob);
+      return imageURL;
+    });
+
+    const imageURLs = await Promise.all(filePromises);
+    setDisplayImages(imageURLs);
+
   } catch (error) {
-    
+    console.log(error);
   }
 }
 
   // fetch functions -> fetch dog image [TODO]
+
+  const fetchDogImage = async () => {
+    try {
+      const response = await fetch(`https://dog.ceo/api/breeds/image/random`)
+      const data = await response.json();
+
+      setDisplayDogImage(data.message);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   // fetch functions -> save dog image [TODO]
+  const saveDogImage = async () => {
+    try {
+      const fileResponse = await fetch(displayDogImage);
+      const blob = await fileResponse.blob();
+
+      const formData = new FormData();
+      formData.append("file", blob, "dog-image.jpg");
+      //make button, onclick={saveDogImage}
+      const response = await fetch(`http://localhost:8000/save/single`,{
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+      console.log(data);
+
+    } catch (error) { 
+      console.log(error);
+    }
+  }
 
   return (
     <div>
@@ -108,11 +159,36 @@ const fetchMultipleFiles = async (e) => {
           />
         </div>
       )}
+      <button onClick={fetchDogImage}>Fetch Dog Image</button>
+      {displayDogImage && (
+        <div>
+          <h3>Dog Image</h3>
+          <img
+            src={displayDogImage}
+            alt="Display Dog Image"
+            style={{ width: "200px", marginTop: "10px" }}
+          />
+        </div>
+      )}
+      <button onClick={saveDogImage}>Save Dog Image</button>
       <form onSubmit={handleSubmitSingleFile}>
         <h2>Upload Single File</h2>
         <input type="file" onChange={handleSingleFileChange} />
         <button type="submit">Upload Single File</button>
       </form>
+      <button onClick={fetchMultipleFiles} >Fetch Multiple Files</button>
+      
+      {displayImages.length > 0 ? (
+        displayImages.map((imageURL, index) => (
+          <div key={index}>
+            <img 
+            src={imageURL}
+            style={{width: "200px"}}
+            />
+          </div>
+        ))
+      ):(<p>No images found.</p>)}
+      
     </div>
   );
 };
