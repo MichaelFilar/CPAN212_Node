@@ -168,9 +168,10 @@ const fetchMultipleFiles = async (e) => {
             alt="Display Dog Image"
             style={{ width: "200px", marginTop: "10px" }}
           />
+          <button onClick={saveDogImage}>Save Dog Image</button>
         </div>
       )}
-      <button onClick={saveDogImage}>Save Dog Image</button>
+      
       <form onSubmit={handleSubmitSingleFile}>
         <h2>Upload Single File</h2>
         <input type="file" onChange={handleSingleFileChange} />
