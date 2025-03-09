@@ -2,12 +2,9 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 const App = () => {
-  // what do we need to track
   const [overviewData, setOverviewData] = useState([]);
   const [displayImage, setDisplayImage] = useState(null);
-  const [message, setMessage] = useState("");
 
-  // Handlers
   const fetchPfp = async () => {
     try {
       const response = await fetch(`http://localhost:8000/fetch/pfp`);

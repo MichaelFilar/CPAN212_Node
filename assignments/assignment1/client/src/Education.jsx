@@ -3,9 +3,7 @@ import "./App.css";
 
 
 const Education = () => {
-  // what do we need to track
   const [educationData, setEducationData] = useState([]);
-  const [message, setMessage] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:8000/fetch/getEdu")

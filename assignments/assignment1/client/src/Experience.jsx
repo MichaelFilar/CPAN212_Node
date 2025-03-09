@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 const Experience = () => {
-  // what do we need to track
   const [experienceData, setExperienceData] = useState([]);
 
   useEffect(() => {
