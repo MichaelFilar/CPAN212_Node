@@ -12,6 +12,7 @@ function CatList() {
   const [minRating, setMinRating] = useState(0);
   const [maxRating, setMaxRating] = useState(5);
   const [isLogged, setIsLoggedIn] = useState(false);
+  const [sortCat, setSortCat] = useState("");
 
   const handleFilters = event => {
     switch(event.target.name) {
@@ -81,6 +82,9 @@ function CatList() {
       <section style={{flex: 1, width: "auto"}}>
         <div className="cat-list">
       <h1>All Adoptable Cats - {cats.length} results</h1></div>
+      <button onClick={() => {console.log(cats.sort((a,b)=> parseInt(b.purchases) - parseInt(a.purchases))); setSortCat("popular")}}>Popular</button>
+      <button onClick={() => {console.log(cats.sort((a,b)=> parseFloat(a.price) - parseFloat(b.price))); setSortCat("cheap")}}>Least Expensive</button>
+      <button onClick={() => {console.log(cats.sort((a,b)=> parseFloat(b.price) - parseFloat(a.price))); setSortCat("expensive")}}>Most Expensive</button>
       <div className="cat-list">
         {cats.map((cat) => (
           <div key={cat._id} className="cat-card">
@@ -90,6 +94,7 @@ function CatList() {
               <img width="220px" height="250px" src={cat.image} />
               <h2>{cat.name}</h2>
               <p>{"⭐".repeat(cat.rating)}</p>
+              {sortCat == "popular" ? (<p>{cat.purchases} fans</p>) : null}
               <h3>${cat.price}</h3>
               </Link>
             </div>
