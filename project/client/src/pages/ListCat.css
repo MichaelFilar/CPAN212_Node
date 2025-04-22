@@ -8,6 +8,13 @@
   width: auto;
 }
 
+
+button {
+  background-color: "#5cf";
+  margin: "10px"
+}
+
+
 .profContainer .cat-list {
   display: flex;
   flex-wrap: wrap;
@@ -32,6 +39,7 @@
 }
 
 .cat-card img {
+  border-radius: 5px;
   width: 220px;
   height: 250px;
 }

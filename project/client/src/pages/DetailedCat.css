@@ -21,3 +21,8 @@
     padding: 1rem;
     text-wrap: wrap;
   }
+
+  button {
+    background-color: "#5cf";
+    margin-left: 3px;
+  }

@@ -19,6 +19,7 @@ function CatDetail() {
 
   const handleAddToCart = (cat) => {
     console.log("adding: ");console.log(cat);
+    alert("Added to cart")
     addToCart(cat)
     return
   }
@@ -40,7 +41,7 @@ function CatDetail() {
         <p>Size: {cat.size}</p>
         <br />
         <p>Price:</p>
-        <p>${cat.price}</p>
+        <p>${cat.price}</p><br />
         <button onClick={() => {handleAddToCart(cat)}}>Add to Cart</button>
       </div>
     </div>
