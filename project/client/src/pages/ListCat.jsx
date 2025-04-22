@@ -78,11 +78,11 @@ function CatList() {
     let url = "http://localhost:8001/search?";
 
     if (search.length > 0) {
-      url+="&search="+search;
+      url+="search="+search;
     }
 
     if (colour.length > 0) {
-      url+= "colour="+colour;
+      url+= "&colour="+colour;
     }
 
     if (price > 0) {
