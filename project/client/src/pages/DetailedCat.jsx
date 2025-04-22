@@ -36,7 +36,7 @@ function CatDetail() {
         <h1>{cat.name}</h1>
         <p>{"⭐".repeat(cat.rating)}</p>
         <p>{cat.description}</p>
-        <p>Colour: {cat.difficulty}</p>
+        <p>Fur colour: {cat.colour}</p>
         <p>Size: {cat.size}</p>
         <br />
         <p>Price:</p>
