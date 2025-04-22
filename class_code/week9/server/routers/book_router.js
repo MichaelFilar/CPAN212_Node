@@ -66,7 +66,7 @@ router.post("/save", (req, res) => {
     })
 
     newBook.save().then(() => {
-        res.json({message: "Data saved"})
+        res.json({message: "Data saved"});
     })
 })
 

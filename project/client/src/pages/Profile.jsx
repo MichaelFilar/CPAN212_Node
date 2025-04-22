@@ -8,6 +8,7 @@ import useAuth from '../hooks/useAuth';
 function Profile() {
   const { isAuthenticated, userName, history } = useAuth();
   const navigate = useNavigate();
+  
 
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');

@@ -16,6 +16,12 @@ function Colour({handleFilters}) {
             <div style={{flex: 1, flexDirection: "column"}}>
                 <Input 
                 handleFilters={handleFilters}
+                value=""
+                title="N/A"
+                name="colour"
+                />
+                <Input 
+                handleFilters={handleFilters}
                 value="White"
                 title="White"
                 name="colour"

@@ -7,11 +7,10 @@ import useAuth from '../hooks/useAuth.jsx';
 
 
 function Cart() {
-    const { isAuthenticated, userId, userName } = useAuth();
+    let { isAuthenticated, userId, userName, history } = useAuth();
 
     let { cart, addToCart, removeFromCart, clearCart } = useContext(UserContext);
     const [total, setTotal] = useState(0);
-    const [history, setHistory] = useState([]);
 
 
     const updateUserHistory = async () => {
@@ -58,7 +57,7 @@ function Cart() {
     }
 
     function handlePurchase() {
-        setHistory(cart);
+        history = cart;
         alert("Purchase complete!")
         updateUserHistory()
         clearCart();
