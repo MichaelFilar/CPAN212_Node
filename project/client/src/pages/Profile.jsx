@@ -94,32 +94,7 @@ function Profile() {
     navigate("/");
   };
 
-  const fetchHist = async () => {
-    try {
-      const response = await fetch(`http://localhost:8001/user/login`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const result = await response.json();
-      if (response.ok) {
-        // Save the token to localStorage
-        localStorage.setItem('authToken', result.token);
-
-        alert('Login successful!');
-        setLoggedIn(true);
-      } else {
-        setErrorMessage(result.message || 'Login failed.');
-      }
-    } catch (error) {
-      console.error('Error logging in:', error);
-      setErrorMessage('Error logging in. Please try again.');
-    }
-  }
-
   useEffect(() => {
-    fetchHist();
   }, [])
 
   if (reg) return (
@@ -150,12 +125,12 @@ function Profile() {
       <h1>Log In</h1>
       <div>
         <form onSubmit={login}>
-        <label>Email</label>
-        <input type="text" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <label>Password</label>
-        <input type="text" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <br />
-        <button style={{ backgroundColor: "#5cf" }}>Log in</button>
+          <label>Email</label>
+          <input type="text" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <label>Password</label>
+          <input type="text" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <br />
+          <button style={{ backgroundColor: "#5cf" }}>Log in</button>
         </form>
         <br />
         {errorMessage && <p className="error">{errorMessage}</p>}
@@ -171,20 +146,22 @@ function Profile() {
       <h1>Welcome, {userName}</h1>
       <div>
         <h2>Latest Adoption(s)!</h2>
+        {console.log("history:")}
         {console.log(history)}
-        {history.map((cat) => (
-          <div key={cat._id} className="cat-card">
-            
-            <div className="cat-actions">
-              <Link to={`/cats/${cat._id}`}>
-              <img width="100%" src={cat.image} />
-              <h2>{cat.name}</h2>
-              </Link>
-            </div>
-          </div>
-        ))}
+        {history.length > 0 ? (
+          <div className='cat-list'>
+            {history.map((cat) => (
+              <div key={cat._id} className="cat-card">
+
+                <div className="cat-actions">
+                  <Link to={`/cats/${cat._id}`}>
+                    <img width="100%" src={cat.image} />
+                    <h2>{cat.name}</h2>
+                  </Link>
+                </div>
+              </div>
+            ))}</div>) : (<><p>No recent adoption.</p></>)}
       </div>
-      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 }

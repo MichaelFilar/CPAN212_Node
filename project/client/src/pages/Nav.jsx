@@ -11,11 +11,11 @@ import Cart from "./Cart";
 
 const SearchBar = ({handleChange, searchQuery}) => {
 
-
-
     return (
       <div style={{flex: 1, flexDirection: "row", display: "inline-block"}}>
-        <input type='text' name="search" id='search' placeholder='Search' onChange={handleChange} onKeyDown={console.log(event?.key)}></input>
+        <form onSubmit={() => handleSearch()}>
+          <input type='text' name="search" id='search' placeholder='Search' onChange={handleChange} />
+        </form>
       </div>
     )
   }
@@ -50,12 +50,11 @@ const Navbar = ({handleChange, searchQuery}) => {
       <div className="navbar-left">
         <ul className='nav-links'>
         <Link to="/">
-            <img src={logo}/>
+            <img style={{borderRadius:'20%', border: '1px solid #000'}}src={logo}/>
         </Link>
         </ul>
       </div>
       <div className="navbar-center">
-        <SearchBar handleChange={handleChange} searchQuery={searchQuery}/>
       </div>
       <div className="navbar-right" >
         <ul className="nav-links">

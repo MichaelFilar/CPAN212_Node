@@ -77,11 +77,11 @@ const logoutUser = (req, res) => {
 const editUser = async (req, res) => {
   try {
     const { history } = req.body;
-    console.log(req.params.userId);
+    console.log("controller id: "+req.params.userId);
     console.log(history);
     const updatedUser = await User.findByIdAndUpdate(
       req.params.userId,
-      history
+      {history}
     );
     console.log(updatedUser);
     if (!updatedUser)

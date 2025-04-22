@@ -1,8 +1,35 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./ListCat.css";
 import Sidebar from "./SideBar";
-import Navbar from "../App.jsx";
+import Navbar, { UserContext } from "../App.jsx";
+
+const SearchBar = ({cats, fetchFilteredData, search, setSearch}) => {
+  const {handleChange, searchQuery} = useContext(UserContext);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchFilteredData()
+    return false;
+  }
+
+
+  return (
+    <>
+      <form style={{flex: 1,flexDirection: "row"}}onSubmit={handleSubmit}>
+        <input 
+        style={{width: '50%', margin: '0 0 0 auto'}}
+        type='text' 
+        name="search" 
+        id='search' 
+        placeholder='Search'
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}/>
+        <button style={{margin: '0 auto 0 0'}}>Search</button>
+      </form>
+    </>
+  )
+}
 
 function CatList() {
   const params = useParams();
@@ -11,6 +38,7 @@ function CatList() {
   const [price, setPrice] = useState(0);
   const [minRating, setMinRating] = useState(0);
   const [maxRating, setMaxRating] = useState(5);
+  const [search, setSearch] = useState("");
   const [isLogged, setIsLoggedIn] = useState(false);
   const [sortCat, setSortCat] = useState("");
 
@@ -49,6 +77,10 @@ function CatList() {
   const fetchFilteredData = () => {
     let url = "http://localhost:8001/search?";
 
+    if (search.length > 0) {
+      url+="&search="+search;
+    }
+
     if (colour.length > 0) {
       url+= "colour="+colour;
     }
@@ -82,16 +114,18 @@ function CatList() {
       <section style={{flex: 1, width: "auto"}}>
         <div className="cat-list">
       <h1>All Adoptable Cats - {cats.length} results</h1></div>
+      <SearchBar cats={cats} fetchFilteredData={fetchFilteredData} search={search} setSearch={setSearch}/>
       <button onClick={() => {console.log(cats.sort((a,b)=> parseInt(b.purchases) - parseInt(a.purchases))); setSortCat("popular")}}>Popular</button>
       <button onClick={() => {console.log(cats.sort((a,b)=> parseFloat(a.price) - parseFloat(b.price))); setSortCat("cheap")}}>Least Expensive</button>
       <button onClick={() => {console.log(cats.sort((a,b)=> parseFloat(b.price) - parseFloat(a.price))); setSortCat("expensive")}}>Most Expensive</button>
       <div className="cat-list">
-        {cats.map((cat) => (
+        {cats.length > 0 ?
+        (<>{cats.map((cat) => (
           <div key={cat._id} className="cat-card">
             
             <div className="cat-actions">
               <Link to={`/cats/${cat._id}`}>
-              <img width="220px" height="250px" src={cat.image} />
+              <img src={cat.image} />
               <h2>{cat.name}</h2>
               <p>{"⭐".repeat(cat.rating)}</p>
               {sortCat == "popular" ? (<p>{cat.purchases} fans</p>) : null}
@@ -99,7 +133,7 @@ function CatList() {
               </Link>
             </div>
           </div>
-        ))}
+        ))}</>) : (<p>No results</p>)}
       </div>
       </section>
     </div>

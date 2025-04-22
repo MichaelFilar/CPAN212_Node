@@ -27,10 +27,13 @@ function App() {
   }
   }
 
-  const addToCart = (cat) => {
-    if (!cart.some(elem => elem === cat)) {
-      setCart([...cart, cat])
-    }
+  const addToCart = (inCat) => {
+    let match = false;
+    cart.forEach(cat => {
+      if (cat._id.toString() === inCat._id.toString()) {console.log("match found"); match = true}
+    })
+    if (!match) {
+      setCart([...cart, inCat])}
   }
 
   const removeFromCart = (inCat) => {
@@ -41,7 +44,7 @@ function App() {
     setCart([]);
   }
 
-  const context = {cart, addToCart, removeFromCart, clearCart}
+  const context = {cart, addToCart, removeFromCart, clearCart, handleChange, searchQuery}
 
 
   return (

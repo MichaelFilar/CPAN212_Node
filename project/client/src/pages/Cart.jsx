@@ -17,8 +17,8 @@ function Cart() {
     const updateUserHistory = async () => {
 
         const token = localStorage.getItem("authToken");
-        console.log(userId);
-        if (!token) return
+        console.log("user id: "+userId);
+        if (!token) return;
         try {
             const response = await fetch(`http://localhost:8001/user/update/${userId}`, {
                 method: "PATCH",
@@ -66,6 +66,7 @@ function Cart() {
 
     return (
         <div style={{ flex: 1, flexDirection: "row", display: "inline-block" }}>
+            <br />
             <h1>Cart</h1>
             {cart.length == 0 ? (<p>Cart empty!</p>) : (<><p>Total: ${total}</p><button onClick={() => handlePurchase()}>Purchase</button>
                 <div className='profContainer'>
@@ -77,7 +78,7 @@ function Cart() {
                                     <div>
                                         <img width="100%" src={cat.image} />
                                         <h2>{cat.name}</h2>
-                                        <h3>${cat.price}</h3>
+                                        <p>${cat.price}</p>
                                         <button onClick={() => handleButton(cat)}>Remove from Cart</button>
                                     </div>
                                 </div>

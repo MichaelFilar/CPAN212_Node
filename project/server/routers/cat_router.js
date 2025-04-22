@@ -24,8 +24,22 @@ router.get("/cat/:id", (req, res) => {
     })
 })
 
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 router.get("/search", (req, res) => {
     const filters = {}
+
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        filters.$or = [
+            {name: regex},
+            {description: regex},
+            {categories:regex},
+            {colour: regex}
+       ]
+    }
 
     if(req.query.description) {
         let descSplit = req.query.description.split();
