@@ -12,7 +12,7 @@ const useAuth = () => {
 
     if (decodedToken.exp && decodedToken.exp > currentTime) {
       console.log(decodedToken)
-      return { isAuthenticated: true, userId: decodedToken.userId, userName: decodedToken.firstName || "User", history: decodedToken.history };
+      return { isAuthenticated: true, userId: decodedToken.userId, userName: decodedToken.firstName || "User" };
     } else {
       localStorage.removeItem("authToken"); // Expired, remove it
       return { isAuthenticated: false, userName: "Guest" };

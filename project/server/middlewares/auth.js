@@ -10,8 +10,7 @@ const generateToken = (user) => {
       userId: user._id,
       email: user.email,
       firstName: user.firstName,
-      lastName: user.lastName,
-      history: user.history
+      lastName: user.lastName
     },
     process.env.JWT_SECRET,  // Use your JWT secret from the environment
     { expiresIn: '1d' } // Set token expiration time (1 day in this case)

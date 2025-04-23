@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import Cat from "./models/cat.js";
 import cat_router from "./routers/cat_router.js"
 import user_router from "./routers/user_router.js"
+import order_router from "./routers/order_router.js"
 import cors from "cors";
 
 dotenv.config()
@@ -34,3 +35,4 @@ app.get("/", (req, res) => {
 
 app.use("/", cat_router)
 app.use("/user", user_router);
+app.use("/order", order_router);

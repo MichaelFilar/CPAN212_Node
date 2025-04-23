@@ -24,10 +24,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 6,
-    },
-    history: {
-      type: Array,
-    },
+    }
   },
   { timestamps: true }
 );

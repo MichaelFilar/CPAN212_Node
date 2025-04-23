@@ -15,7 +15,6 @@ function App() {
   const [search, setSearch] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cart, setCart] = useState([]);
-  const [history, setHistory] = useState([]);
 
   const handleChange = event => {
     console.log(event.target.value);
@@ -45,7 +44,7 @@ function App() {
     setCart([]);
   }
 
-  const context = {cart, addToCart, removeFromCart, clearCart, handleChange, searchQuery, history, setHistory}
+  const context = {cart, addToCart, removeFromCart, clearCart, handleChange, searchQuery}
 
 
   return (

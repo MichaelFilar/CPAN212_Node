@@ -7,13 +7,13 @@ import useAuth from '../hooks/useAuth.jsx';
 
 
 function Cart() {
-    let { isAuthenticated, userId, userName, history } = useAuth();
+    let { isAuthenticated, userId, userName } = useAuth();
 
     let { cart, addToCart, removeFromCart, clearCart } = useContext(UserContext);
     const [total, setTotal] = useState(0);
 
 
-    const updateUserHistory = async () => {
+    /*const updateUserHistory = async () => {
 
         const token = localStorage.getItem("authToken");
         console.log("user id: "+userId);
@@ -28,6 +28,31 @@ function Cart() {
                 console.log("Purchase saved");
             } else {
                 console.log("Save fail")
+                const result = await response.json();
+                console.log(result.message);
+            }
+        } catch (error) {
+            console.error("Error updating user:", error);
+            alert("An error occurred. Please try again.");
+        }
+    }*/
+
+    const saveOrder = async () => {
+        
+        const token = localStorage.getItem("authToken");
+        console.log("user id: "+userId);
+        console.log(cart);
+        if (!token) (userId = "Guest "+Date.now());
+        try {
+            const response = await fetch(`http://localhost:8001/order/order`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId: userId, orderContents: cart, date: Date.now() }),
+            });
+            if (response.ok) {
+                console.log("Order saved");
+            } else {
+                console.log("Order save fail")
                 const result = await response.json();
                 console.log(result.message);
             }
@@ -57,9 +82,9 @@ function Cart() {
     }
 
     function handlePurchase() {
-        history = cart;
         alert("Purchase complete!")
-        updateUserHistory()
+        saveOrder();
+        //updateUserHistory()
         clearCart();
     }
 

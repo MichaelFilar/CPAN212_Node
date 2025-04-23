@@ -12,6 +12,5 @@ router.post('/login', userController.loginUser);
 // Logout route
 router.get('/logout', userController.logoutUser);
 
-router.patch('/update/:userId', userController.editUser);
 
 export default router;

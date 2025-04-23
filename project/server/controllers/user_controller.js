@@ -74,27 +74,8 @@ const logoutUser = (req, res) => {
   res.status(200).json({ message: "Logout successful" });
 };
 
-const editUser = async (req, res) => {
-  try {
-    const { history } = req.body;
-    console.log("controller id: "+req.params.userId);
-    console.log(history);
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.userId,
-      {history}
-    );
-    console.log(updatedUser);
-    if (!updatedUser)
-      return res.status(404).json({ message: "User not found" });
-    res.json(updatedUser);
-  } catch (error) {
-    res.status(400).json({ message: "Error updating user", error });
-  }
-};
-
 export default {
   registerUser,
   loginUser,
-  logoutUser,
-  editUser,
+  logoutUser
 };

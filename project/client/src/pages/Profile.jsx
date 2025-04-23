@@ -6,25 +6,24 @@ import './ListCat.css';
 import useAuth from '../hooks/useAuth';
 
 function Profile() {
-  const { isAuthenticated, userName, history } = useAuth();
+  const { isAuthenticated, userId, userName } = useAuth();
   const navigate = useNavigate();
   
 
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const [cat, setCat] = useState(null);
   const [reg, setReg] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [history, setHistory] = useState([]);
 
   const [user, setUser] = useState({
     email: "",
     password: "",
     firstName: "",
     lastName: "",
-    history: []
   })
 
   const register = async (e) => {
@@ -44,8 +43,7 @@ function Profile() {
           firstName: "",
           lastName: "",
           email: "",
-          password: "",
-          history: []
+          password: ""
         });
         setReg(false);
       } else {
@@ -73,6 +71,7 @@ function Profile() {
 
         alert('Login successful!');
         setLoggedIn(true);
+        window.location.reload();
       } else {
         setErrorMessage(result.message || 'Login failed.');
       }
@@ -95,7 +94,20 @@ function Profile() {
     navigate("/");
   };
 
+  const fetchOrders = (userId) => {
+    fetch(`http://localhost:8001/order/order/user/${userId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+        setHistory(data);
+      })
+      .catch((error) => console.error(error));
+  }
+
   useEffect(() => {
+    if (isAuthenticated || isLoggedIn) {
+      fetchOrders(userId)
+    }
   }, [])
 
   if (reg) return (
@@ -151,14 +163,22 @@ function Profile() {
         {console.log(history)}
         {history.length > 0 ? (
           <div className='cat-list'>
-            {history.map((cat) => (
-              <div key={cat._id} className="cat-card">
-
-                <div className="cat-actions">
-                  <Link to={`/cats/${cat._id}`}>
-                    <img width="100%" src={cat.image} />
-                    <h2>{cat.name}</h2>
-                  </Link>
+            {history.map((order, index) => (
+              <div key={order._id}>
+                <h3>Order {index+1}</h3>
+                <p>Date: {order.createdAt.substring(0,10)}</p>
+                <div className='cat-list'>
+                {order.orderContents.map((item) => (
+                  <div key={item._id} className="cat-card">
+            
+                  <div className="cat-actions">
+                    <div>
+                    <img src={item.image} />
+                    <h2>{item.name}</h2>
+                    </div>
+                  </div>
+                </div>
+                ))}
                 </div>
               </div>
             ))}</div>) : (<><p>No recent adoption.</p></>)}
